@@ -1,10 +1,10 @@
 package cn.myseu.heraldapp;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,21 +13,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
-import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
 //import android.webkit.WebView;
 //import android.webkit.WebViewClient;
+import cn.myseu.heraldapp.Animation.Animation;
 import cn.myseu.heraldapp.Components.AuthWebView;
 
 import java.util.ArrayList;
@@ -90,7 +88,6 @@ public class HomeActivity extends AppCompatActivity {
             // 身份认证过期
             authFail();
         }
-        
 
         // 生成路由栈，初始为空
         mRouteHistory = new Stack<>();
@@ -269,6 +266,7 @@ public class HomeActivity extends AppCompatActivity {
         mIcon.setVisibility(View.GONE);
         mSubWebViewContainer.setVisibility(View.VISIBLE);
         mWebViewContainer.setVisibility(View.GONE);
+        Animation.slideIn(this, (View) mSubWebView);
     }
 
     private void popRoute(){
@@ -277,13 +275,16 @@ public class HomeActivity extends AppCompatActivity {
             ArrayList<String> history = mRouteHistory.peek();
             mNavigationTitle.setText(history.get(1));
             mSubWebView.pushRoute(history.get(0));
+            Animation.slideOut(this, (View) mSubWebView);
         } else {
+            Animation.slideOut(this, (View) mSubWebView);
             mNavigationTitle.setVisibility(View.GONE);
             mBackButton.setVisibility(View.GONE);
             mIcon.setVisibility(View.VISIBLE);
             mTabBar.setVisibility(View.VISIBLE);
             mSubWebViewContainer.setVisibility(View.GONE);
             mWebViewContainer.setVisibility(View.VISIBLE);
+
         }
     }
 
