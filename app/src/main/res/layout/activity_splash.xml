@@ -6,4 +6,12 @@
     android:background="@drawable/start_background"
     >
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="0dp"
+        android:paddingTop="120dp"
+        android:text="@string/splash"
+        android:textColor="#888888" />
 </FrameLayout>

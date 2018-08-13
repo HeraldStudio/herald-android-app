@@ -5,4 +5,6 @@
     <string name="password_hint">统一身份认证密码</string>
     <string name="login_button_title">登录</string>
     <string name="password_error">统一身份认证出错，请检查网络状态以及输入是否正确</string>
+    <string name="splash">专注公益更懂你</string>
+    <string name="not_found_hint">小猴跑丢了！先检查下网络连接吧！</string>
 </resources>

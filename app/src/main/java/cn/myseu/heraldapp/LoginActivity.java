@@ -27,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordEditText;
     private Button mLoginButton;
 
+    private int debugCounter = 0;
+
     Disposable mAuthSubscription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        mLoginFaceImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                debugCounter++;
+                if (debugCounter > 5 && debugCounter < 10) {
+                    Toast.makeText(LoginActivity.this, String.format("再点击%d次进入调试模式", 10 - debugCounter), Toast.LENGTH_SHORT).show();
+                }
+                if (debugCounter >= 10) {
+                    mLoginButton.setText("进入调试");
+                }
+            }
+        });
 
     }
 
@@ -87,12 +101,19 @@ public class LoginActivity extends AppCompatActivity {
                     tokenEditor.clear();
                     tokenEditor.putString("token", authResult.getResult());
                     tokenEditor.commit();
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if ( debugCounter < 10) {
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(LoginActivity.this, DebugActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 } else {
                     mLoginButton.setClickable(true);
                     mLoginButton.setText("登录");
+                    debugCounter = 0;
                     Log.e("login-fail", authResult.getReason());
                     Toast.makeText(LoginActivity.this, authResult.getReason(), Toast.LENGTH_SHORT).show();
                 }

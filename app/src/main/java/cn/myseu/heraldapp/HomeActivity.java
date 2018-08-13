@@ -2,9 +2,11 @@ package cn.myseu.heraldapp;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,8 @@ import android.widget.TextView;
 
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
+import com.tencent.smtt.export.external.interfaces.WebResourceError;
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
@@ -146,6 +150,31 @@ public class HomeActivity extends AppCompatActivity {
                 // handler.cancel();// Android默认的处理方式
                 handler.proceed();// 接受所有网站的证书
                 // handleMessage(Message msg);// 进行其他处理
+            }
+
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                //Log.e(TAG, "onReceivedError: ----url:" + error.getDescription());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    return;
+                }
+                Intent intent =  new Intent(HomeActivity.this, NotFoundActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            // 新版本，只会在Android6及以上调用
+            @TargetApi(Build.VERSION_CODES.M)
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                if (request.isForMainFrame()) { // 或者： if(request.getUrl().toString() .equals(getUrl()))
+                    Intent intent =  new Intent(HomeActivity.this, NotFoundActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
         setJsInterface(mMainWebView);
