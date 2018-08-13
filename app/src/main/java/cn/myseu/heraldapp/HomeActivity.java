@@ -5,8 +5,10 @@ import android.animation.AnimatorSet;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +67,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            this.getWindow().setStatusBarColor(Color.argb(100, 255, 255, 255));
+            this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
         // 设置ToolBar
         mToolbar = (Toolbar) findViewById(R.id.herald_toolbar);
         mToolbar.setTitle("");
@@ -103,13 +110,13 @@ public class HomeActivity extends AppCompatActivity {
             mWebViewContainer.removeAllViews();
             if(mMainWebView != null) {
                 mMainWebView.clearHistory();
-                mMainWebView.clearCache(true);
+                mMainWebView.clearCache(false);
                 mMainWebView.loadUrl("about:blank"); // clearView() should be changed to loadUrl("about:blank"), since clearView() is deprecated no
                 mMainWebView.destroy(); // Note that mMainWebView.destroy() and mMainWebView = null do the exact same thing
             }
             if(mSubWebView != null) {
                 mSubWebView.clearHistory();
-                mSubWebView.clearCache(true);
+                mSubWebView.clearCache(false);
                 mSubWebView.loadUrl("about:blank"); // clearView() should be changed to loadUrl("about:blank"), since clearView() is deprecated no
                 mSubWebView.destroy(); // Note that mMainWebView.destroy() and mMainWebView = null do the exact same thing
             }
@@ -266,14 +273,25 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(i);
         }
 
+        @JavascriptInterface
+        public void clearCache(){
+            clearCache();
+        }
+
     }
 
     private void setJsInterface(AuthWebView webView) {
         webView.addJavascriptInterface(new JsInterface(), "android");
     }
 
+    private void clearCache() {
+        mSubWebView.clearCache(true);
+        mMainWebView.clearCache(true);
+    }
+
     private void authFail() {
         // token不存在，启动登录界面并销毁当前活动
+        clearCache();
         Intent intent =  new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();

@@ -151,7 +151,7 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     private void pushRoute(String route){
-        if (route.contains("http")) {
+        if (route.startsWith("http")) {
             mBaseUrl = route;
             mMainWebView.loadUrl(route);
         }  else {

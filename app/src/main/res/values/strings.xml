@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">小猴偷米</string>
-    <string name="copyright">东南大学小猴偷米工作室©️2008-2018</string>
+    <string name="copyright">东南大学小猴偷米工作室版权所有© ️2008-2018</string>
     <string name="cardnum_hint">一卡通号</string>
     <string name="password_hint">统一身份认证密码</string>
     <string name="login_button_title">登录</string>

@@ -2,7 +2,9 @@ package cn.myseu.heraldapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.Image;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +37,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            this.getWindow().setStatusBarColor(Color.argb(100, 255, 255, 255));
+            this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
         mLoginFaceImageView = (ImageView) findViewById(R.id.login_face);
         mCardnumEditText = (EditText) findViewById(R.id.cardnum_edit);
         mPasswordEditText = (EditText) findViewById(R.id.password_edit);
@@ -121,7 +127,11 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable e) {
-
+                mLoginButton.setClickable(true);
+                mLoginButton.setText("登录");
+                debugCounter = 0;
+                Log.e("login-fail", "网络失败");
+                Toast.makeText(LoginActivity.this, "先检查下网络吧！", Toast.LENGTH_SHORT).show();
             }
 
             @Override

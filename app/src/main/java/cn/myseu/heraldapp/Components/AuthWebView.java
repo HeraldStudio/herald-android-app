@@ -54,6 +54,8 @@ public class AuthWebView extends WebView {
         // 不显示X5内核自带的快速滚动条
         if(getX5WebViewExtension() != null) {
             getX5WebViewExtension().setScrollBarFadingEnabled(false);
+            getX5WebViewExtension().setHorizontalScrollBarEnabled(false);
+            getX5WebViewExtension().setVerticalScrollBarEnabled(false);
         }
     }
 
