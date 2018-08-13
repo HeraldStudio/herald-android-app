@@ -130,8 +130,9 @@ public class LoginActivity extends AppCompatActivity {
                 mLoginButton.setClickable(true);
                 mLoginButton.setText("登录");
                 debugCounter = 0;
-                Log.e("login-fail", "网络失败");
+                //Log.e("login-fail", "网络失败");
                 Toast.makeText(LoginActivity.this, "先检查下网络吧！", Toast.LENGTH_SHORT).show();
+                Log.e("login-fail", "网络失败", e);
             }
 
             @Override

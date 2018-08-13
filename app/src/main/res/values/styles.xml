@@ -10,7 +10,6 @@
 
     <style name="StartAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/start_background</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
