@@ -2,7 +2,9 @@ package cn.myseu.heraldapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,10 +20,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tencent.smtt.export.external.interfaces.SslError;
+import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
+//import android.webkit.WebView;
+//import android.webkit.WebViewClient;
 import cn.myseu.heraldapp.Components.AuthWebView;
 
 import java.util.ArrayList;
@@ -29,11 +35,12 @@ import java.util.Stack;
 
 public class HomeActivity extends AppCompatActivity {
 
-    public static String BASE_URL = "http://192.168.1.101:8080";
+    public static String BASE_URL = "https://hybrid.myseu.cn/index.html";
     private AuthWebView mMainWebView;
     private AuthWebView mSubWebView;
     
     private LinearLayout mWebViewContainer;
+    private LinearLayout mSubWebViewContainer;
     private ConstraintLayout mTabBar;
     private Toolbar mToolbar;
     private ImageView mBackButton;
@@ -46,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private String mToken;
 
-    private String[] tabPath = { "/home-tab/", "/activity-tab/", "/notification-tab/", "/personal-tab/"};
+    private String[] tabPath = { "/home-tab", "/activity-tab", "/notification-tab", "/personal-tab"};
     private int mTabCurrentIndex = 0;
 
     private Stack<ArrayList<String>> mRouteHistory;
@@ -116,10 +123,14 @@ public class HomeActivity extends AppCompatActivity {
         
         mWebViewContainer = (LinearLayout) findViewById(R.id.auth_web_view_container);
         mWebViewContainer.addView(mMainWebView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        
+        mSubWebViewContainer = (LinearLayout) findViewById(R.id.auth_sub_web_view_container);
+        mSubWebViewContainer.addView(mSubWebView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        mSubWebViewContainer.setVisibility(View.GONE);
+
         mMainWebView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView webView, String s) {
+                //mMainWebView.pushRoute(tabPath[0]);
                 super.onPageFinished(webView, s);
                 setTabListener();
             }
@@ -130,10 +141,19 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(i);
                 return true;
             }
+
+            @Override
+            public void onReceivedSslError(WebView view,
+                                           SslErrorHandler handler, SslError error) {
+                // TODO Auto-generated method stub
+                // handler.cancel();// Android默认的处理方式
+                handler.proceed();// 接受所有网站的证书
+                // handleMessage(Message msg);// 进行其他处理
+            }
         });
         setJsInterface(mMainWebView);
-        mMainWebView.loadUrl(HomeActivity.BASE_URL + tabPath[0]); // 在创建活动时即加载
-        
+        mMainWebView.loadUrl( HomeActivity.BASE_URL ); // 在创建活动时即加载
+        //mMainWebView.loadUrl("https://myseu.cn/#/"); // 在创建活动时即加载
         // 同时初始化副WebView并加载页面
         mSubWebView.setWebViewClient(new WebViewClient(){
             @Override
@@ -148,10 +168,19 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(i);
                 return true;
             }
+
+            @Override
+            public void onReceivedSslError(WebView view,
+                                           SslErrorHandler handler, SslError error) {
+                // TODO Auto-generated method stub
+                // handler.cancel();// Android默认的处理方式
+                handler.proceed();// 接受所有网站的证书
+                // handleMessage(Message msg);// 进行其他处理
+            }
         });
         setJsInterface(mSubWebView);
-        mSubWebView.loadUrl(HomeActivity.BASE_URL + tabPath[0]); // 在创建活动时即加载
-                
+        mSubWebView.loadUrl( HomeActivity.BASE_URL ); // 在创建活动时即加载
+        //mSubWebView.loadUrl("https://myseu.cn/#/"); // 在创建活动时即加载
     }
 
     private String getToken() {
@@ -227,6 +256,7 @@ public class HomeActivity extends AppCompatActivity {
     private void pushRoute(String route, String title){
         
         // 一旦路由入栈，一定是在副WebView中
+
         mSubWebView.pushRoute(route);
         ArrayList<String> history = new ArrayList<>();
         history.add(route);
@@ -237,9 +267,8 @@ public class HomeActivity extends AppCompatActivity {
         mBackButton.setVisibility(View.VISIBLE);
         mTabBar.setVisibility(View.GONE);
         mIcon.setVisibility(View.GONE);
-        mWebViewContainer.removeAllViews();
-        mWebViewContainer.addView(mSubWebView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        
+        mSubWebViewContainer.setVisibility(View.VISIBLE);
+        mWebViewContainer.setVisibility(View.GONE);
     }
 
     private void popRoute(){
@@ -253,8 +282,8 @@ public class HomeActivity extends AppCompatActivity {
             mBackButton.setVisibility(View.GONE);
             mIcon.setVisibility(View.VISIBLE);
             mTabBar.setVisibility(View.VISIBLE);
-            mWebViewContainer.removeAllViews();
-            mWebViewContainer.addView(mMainWebView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            mSubWebViewContainer.setVisibility(View.GONE);
+            mWebViewContainer.setVisibility(View.VISIBLE);
         }
     }
 

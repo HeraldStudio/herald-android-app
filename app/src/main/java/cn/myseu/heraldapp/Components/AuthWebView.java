@@ -11,6 +11,10 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebViewClient;
 
+
+//import android.webkit.WebView;
+//import android.webkit.WebSettings;
+//import android.webkit.WebViewClient;
 import android.webkit.JavascriptInterface;
 import android.widget.LinearLayout;
 
@@ -39,6 +43,9 @@ public class AuthWebView extends WebView {
         webSettings.setAppCachePath(appCachePath);
         webSettings.setAllowFileAccess(true);
         webSettings.setAppCacheEnabled(true);
+        webSettings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        //启用调试
+        setWebContentsDebuggingEnabled(true);
 
         // 不显示滚动条
         setHorizontalScrollBarEnabled(false);
