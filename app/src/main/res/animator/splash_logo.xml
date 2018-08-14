@@ -5,8 +5,8 @@
         android:propertyName="scaleX"
         android:duration="1500"
         android:valueFrom="1"
-        android:valueTo="100"
-        android:startOffset="1000"
+        android:valueTo="1"
+        android:startOffset="0"
         android:repeatCount="0"
         android:valueType="floatType"/>
 
@@ -14,8 +14,8 @@
         android:propertyName="scaleY"
         android:duration="1500"
         android:valueFrom="1"
-        android:valueTo="100"
-        android:startOffset="1000"
+        android:valueTo="1"
+        android:startOffset="0"
         android:repeatCount="0"
         android:valueType="floatType"/>
 
@@ -23,8 +23,8 @@
         android:propertyName="alpha"
         android:duration="500"
         android:valueFrom="1"
-        android:valueTo="0"
-        android:startOffset="1000"
+        android:valueTo="1"
+        android:startOffset="0"
         android:repeatCount="0"
         android:valueType="floatType"/>
 </set>

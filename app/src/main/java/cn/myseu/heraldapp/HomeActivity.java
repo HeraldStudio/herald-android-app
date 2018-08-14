@@ -21,6 +21,7 @@ import android.webkit.JavascriptInterface;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
@@ -34,6 +35,7 @@ import com.tencent.smtt.sdk.WebViewClient;
 import cn.myseu.heraldapp.Animation.Animation;
 import cn.myseu.heraldapp.Components.AuthWebView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -128,7 +130,7 @@ public class HomeActivity extends AppCompatActivity {
         // 生成WebView
         mMainWebView = new AuthWebView(HomeActivity.this); // 用于主页显示的WebView
         mSubWebView = new AuthWebView(HomeActivity.this); // 用于其他页面显示的WebView
-        
+
         mWebViewContainer = (LinearLayout) findViewById(R.id.auth_web_view_container);
         mWebViewContainer.addView(mMainWebView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         mSubWebViewContainer = (LinearLayout) findViewById(R.id.auth_sub_web_view_container);
@@ -275,7 +277,8 @@ public class HomeActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void clearCache(){
-            clearCache();
+            Toast.makeText(HomeActivity.this, "如果存在新版，下次启动时将自动更新", Toast.LENGTH_SHORT).show();
+            HomeActivity.this.clearCache();
         }
 
     }
