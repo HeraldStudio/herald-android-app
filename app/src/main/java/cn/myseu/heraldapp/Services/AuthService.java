@@ -3,6 +3,8 @@ package cn.myseu.heraldapp.Services;
 import android.content.SharedPreferences;
 
 
+import com.google.gson.Gson;
+
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -31,9 +33,13 @@ public class AuthService {
                 .build();
 
         AuthInterface authInterface = retrofit.create(AuthInterface.class);
+
+        AuthBody authBody = new AuthBody(cardnum, password);
+
+        Gson gs = new Gson();
         RequestBody requestBody = RequestBody.create(
                 MediaType.parse("application/json; charset=utf-8"),
-                String.format("{\"cardnum\":\"%s\", \"password\":\"%s\", \"platform\":\"android\"}", cardnum, password)
+                gs.toJson(authBody)
         );
 
         return authInterface.auth(requestBody)
@@ -82,6 +88,42 @@ public class AuthService {
 
         public void setResult(String result) {
             this.result = result;
+        }
+    }
+
+    public static class AuthBody {
+        private String cardnum;
+        private String password;
+        private String platform;
+
+        AuthBody(String cardnum, String password) {
+            this.cardnum = cardnum;
+            this.password = password;
+            this.platform = "android";
+        }
+
+        public void setCardnum(String cardnum) {
+            this.cardnum = cardnum;
+        }
+
+        public String getCardnum() {
+            return cardnum;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPlatform(String platform) {
+            this.platform = platform;
+        }
+
+        public String getPlatform() {
+            return platform;
         }
     }
 }

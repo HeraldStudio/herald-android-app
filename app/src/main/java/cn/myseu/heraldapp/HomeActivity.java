@@ -277,8 +277,13 @@ public class HomeActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void clearCache(){
-            Toast.makeText(HomeActivity.this, "如果存在新版，下次启动时将自动更新", Toast.LENGTH_SHORT).show();
+            Toast.makeText(HomeActivity.this, "小猴知道啦～下次启动时会检查更新哦", Toast.LENGTH_SHORT).show();
             HomeActivity.this.clearCache();
+        }
+
+        @JavascriptInterface
+        public void toast(String text){
+            Toast.makeText(HomeActivity.this, text, Toast.LENGTH_SHORT).show();
         }
 
     }
