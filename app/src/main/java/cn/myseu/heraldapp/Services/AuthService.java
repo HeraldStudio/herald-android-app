@@ -32,8 +32,8 @@ public class AuthService {
 
         AuthInterface authInterface = retrofit.create(AuthInterface.class);
         RequestBody requestBody = RequestBody.create(
-                MediaType.parse("application/x-www-form-urlencoded; charset=utf-8"),
-                "cardnum="+cardnum+"&password="+password+"&platform=android"
+                MediaType.parse("application/json; charset=utf-8"),
+                String.format("{\"cardnum\":\"%s\", \"password\":\"%s\", \"platform\":\"android\"}", cardnum, password)
         );
 
         return authInterface.auth(requestBody)

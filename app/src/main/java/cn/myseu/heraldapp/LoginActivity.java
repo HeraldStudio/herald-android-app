@@ -123,6 +123,9 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("login-fail", authResult.getReason());
                     Toast.makeText(LoginActivity.this, authResult.getReason(), Toast.LENGTH_SHORT).show();
                 }
+                if (!mAuthSubscription.isDisposed()) {
+                    mAuthSubscription.dispose();
+                }
             }
 
             @Override
@@ -133,6 +136,9 @@ public class LoginActivity extends AppCompatActivity {
                 //Log.e("login-fail", "网络失败");
                 Toast.makeText(LoginActivity.this, "先检查下网络吧！", Toast.LENGTH_SHORT).show();
                 Log.e("login-fail", "网络失败", e);
+                if (!mAuthSubscription.isDisposed()) {
+                    mAuthSubscription.dispose();
+                }
             }
 
             @Override
