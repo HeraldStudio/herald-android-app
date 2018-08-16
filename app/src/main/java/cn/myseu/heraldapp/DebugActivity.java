@@ -19,6 +19,7 @@ import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
 import com.tencent.smtt.export.external.interfaces.WebResourceError;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
+import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
@@ -72,7 +73,7 @@ public class DebugActivity extends AppCompatActivity {
     private void initWebView() {
         // 生成WebView
         mMainWebView = new AuthWebView(DebugActivity.this); // 用于主页显示的WebView
-
+        mMainWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebViewContainer.addView(mMainWebView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
         mMainWebView.setWebViewClient(new WebViewClient(){

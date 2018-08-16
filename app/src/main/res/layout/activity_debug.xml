@@ -15,7 +15,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="https://hybrid.myseu.cn/index.html"
+        android:text="http://192.168.1.101:8080/index.html"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/debug_go_button"
         app:layout_constraintHorizontal_bias="0.5"

@@ -32,6 +32,7 @@ import com.tencent.smtt.export.external.interfaces.WebResourceError;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
+import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
@@ -93,7 +94,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        requestPermisson();
         // 设置ToolBar
         mToolbar = (Toolbar) findViewById(R.id.herald_toolbar);
         mToolbar.setTitle("");
@@ -156,6 +156,15 @@ public class HomeActivity extends AppCompatActivity {
         mSubWebViewContainer = (LinearLayout) findViewById(R.id.auth_sub_web_view_container);
         mSubWebViewContainer.addView(mSubWebView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         mSubWebViewContainer.setVisibility(View.GONE);
+
+        // 判断是否无缓存加载
+        SharedPreferences cacheSharedPreferences = getSharedPreferences("cache", MODE_PRIVATE);
+        Boolean cache = cacheSharedPreferences.getBoolean("cache", true);
+        if (!cache) {
+            mMainWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+            mSubWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+            cacheSharedPreferences.edit().putBoolean("cache", true).commit();
+        }
 
         mMainWebView.setWebViewClient(new WebViewClient(){
             @Override
@@ -297,13 +306,17 @@ public class HomeActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void clearCache(){
-            Toast.makeText(HomeActivity.this, "小猴知道啦～下次启动时会检查更新哦", Toast.LENGTH_SHORT).show();
             HomeActivity.this.clearCache();
         }
 
         @JavascriptInterface
         public void toast(String text){
             Toast.makeText(HomeActivity.this, text, Toast.LENGTH_SHORT).show();
+        }
+
+        @JavascriptInterface
+        public int getVersionCode(){
+            return BuildConfig.VERSION_CODE;
         }
 
     }
@@ -313,8 +326,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void clearCache() {
-        mSubWebView.clearCache(true);
-        mMainWebView.clearCache(true);
+        SharedPreferences cacheSharedPreferences = getSharedPreferences("cache", MODE_PRIVATE);
+        SharedPreferences.Editor editor = cacheSharedPreferences.edit();
+        editor.putBoolean("cache", false);
+        editor.commit();
+        Intent intent =  new Intent(HomeActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void authFail() {
