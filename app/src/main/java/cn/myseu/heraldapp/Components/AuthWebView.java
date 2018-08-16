@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import com.tencent.smtt.sdk.ValueCallback;
@@ -53,6 +54,7 @@ public class AuthWebView extends WebView {
 
         // 不显示X5内核自带的快速滚动条
         if(getX5WebViewExtension() != null) {
+            Log.d("herald-x5","正在使用X5内核");
             getX5WebViewExtension().setScrollBarFadingEnabled(false);
             getX5WebViewExtension().setHorizontalScrollBarEnabled(false);
             getX5WebViewExtension().setVerticalScrollBarEnabled(false);

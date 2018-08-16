@@ -4,11 +4,14 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "cn.myseu.heraldapp"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "2.0.0-alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        defaultConfig{
+            ndk{abiFilters "armeabi"}
+        }
     }
     buildTypes {
         release {
