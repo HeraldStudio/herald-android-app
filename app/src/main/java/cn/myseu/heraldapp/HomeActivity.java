@@ -1,4 +1,4 @@
-package cn.myseu.heraldapp;
+﻿package cn.myseu.heraldapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -218,7 +218,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void authFail() {
-        // 清除token，以退出登录
+        // 为了实现切换登录而曲线救国
         SharedPreferences cacheSharedPreferences = getSharedPreferences("token", MODE_PRIVATE);
         SharedPreferences.Editor editor = cacheSharedPreferences.edit();
         editor.clear();
