@@ -1,4 +1,4 @@
-package cn.myseu.heraldapp;
+﻿package cn.myseu.heraldapp;
 
 import android.Manifest;
 import android.animation.AnimatorInflater;
@@ -336,6 +336,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void authFail() {
+        // 为了实现切换登录而曲线救国
+        SharedPreferences cacheSharedPreferences = getSharedPreferences("token", MODE_PRIVATE);
+        SharedPreferences.Editor editor = cacheSharedPreferences.edit();
+        editor.clear();
+        editor.commit();
         // token不存在，启动登录界面并销毁当前活动
         Intent intent =  new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
