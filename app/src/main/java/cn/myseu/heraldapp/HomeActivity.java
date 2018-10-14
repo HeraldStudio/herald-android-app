@@ -75,11 +75,13 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // 设置刘海屏需要的颜色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             this.getWindow().setStatusBarColor(Color.argb(100, 255, 255, 255));
             this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
+        // 初始化X5内核
         QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
             @Override
             public void onCoreInitFinished() {
@@ -469,6 +471,7 @@ public class HomeActivity extends AppCompatActivity {
             return false;
         }
         return super.onKeyDown(keyCode, event);
+
     }
 
 }
