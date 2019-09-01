@@ -1,4 +1,4 @@
-﻿package cn.myseu.heraldapp;
+package cn.myseu.heraldapp;
 
 import android.Manifest;
 import android.animation.AnimatorInflater;
@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -40,9 +41,11 @@ import com.tencent.smtt.sdk.WebViewClient;
 //import android.webkit.WebViewClient;
 import cn.myseu.heraldapp.Animation.Animation;
 import cn.myseu.heraldapp.Components.AuthWebView;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class HomeActivity extends AppCompatActivity {
@@ -70,6 +73,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private Stack<ArrayList<String>> mRouteHistory;
 
+    private String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE, };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
             this.getWindow().setStatusBarColor(Color.argb(100, 255, 255, 255));
             this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-
+        this.requestPermisson();
         QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
             @Override
             public void onCoreInitFinished() {
@@ -419,33 +425,60 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void requestPermisson() {
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(HomeActivity.this,
-                Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,
-                    Manifest.permission.READ_PHONE_STATE)) {
-
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(HomeActivity.this,
-                        new String[]{Manifest.permission.READ_PHONE_STATE},
-                        1);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
+        if (EasyPermissions.hasPermissions(this, permissions)) {
+            //已经打开权限
+            //Toast.makeText(this, "已经申请相关权限", Toast.LENGTH_SHORT).show();
+        } else {
+            //没有打开相关权限、申请权限
+            EasyPermissions.requestPermissions(this, "需要获取您的相册、照相使用权限", 1, permissions);
         }
+        // Here, thisActivity is the current activity
+//        if (ContextCompat.checkSelfPermission(HomeActivity.this,
+//                Manifest.permission.READ_PHONE_STATE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,
+//                    Manifest.permission.READ_PHONE_STATE)) {
+//
+//                // Show an expanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//
+//            } else {
+//
+//                // No explanation needed, we can request the permission.
+//
+//                ActivityCompat.requestPermissions(HomeActivity.this,
+//                        new String[]{Manifest.permission.READ_PHONE_STATE},
+//                        1);
+//
+//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                // app-defined int constant. The callback method gets the
+//                // result of the request.
+//            }
+//        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //框架要求必须这么写
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+
+    //成功打开权限
+    //@Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
+        //Toast.makeText(this, "相关权限获取成功", Toast.LENGTH_SHORT).show();
+    }
+    //用户未同意权限
+    //@Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        Toast.makeText(this, "请同意相关权限，否则部分功能无法正常使用", Toast.LENGTH_SHORT).show();
     }
 
     @Override
