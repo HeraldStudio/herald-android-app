@@ -1,6 +1,7 @@
-﻿package cn.myseu.heraldapp;
+package cn.myseu.heraldapp;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.annotation.TargetApi;
@@ -50,12 +51,13 @@ public class HomeActivity extends AppCompatActivity {
     public static String BASE_URL = "https://hybrid.myseu.cn/index.html";
     private AuthWebView mMainWebView;
     private AuthWebView mSubWebView;
-    
+
     private LinearLayout mWebViewContainer;
     private LinearLayout mSubWebViewContainer;
     private ConstraintLayout mTabBar;
     private Toolbar mToolbar;
     private ImageView mBackButton;
+    private ImageView mRefreshButton;
     private TextView mNavigationTitle;
     private ImageView mIcon;
 
@@ -101,12 +103,44 @@ public class HomeActivity extends AppCompatActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         mBackButton = (ImageView) findViewById(R.id.back_button);
+        mRefreshButton = (ImageView) findViewById(R.id.refresh_button);
         mNavigationTitle = (TextView) findViewById(R.id.navigation_text);
         mIcon = (ImageView) findViewById(R.id.toolbar_icon);
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popRoute();
+            }
+        });
+        mRefreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 换成带表情的图标
+                mRefreshButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.refresh_button_loading));
+                // 转
+                Animation.refresh(HomeActivity.this, (View) mRefreshButton, new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        // 换成不带表情的图标
+                        mRefreshButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.refresh_button));
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                });
+                mMainWebView.reload();
             }
         });
 
@@ -147,7 +181,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
-    
+
     private void initWebView() {
         // 生成WebView
         mMainWebView = new AuthWebView(HomeActivity.this); // 用于主页显示的WebView
@@ -350,9 +384,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void pushRoute(String route, String title){
-        
-        // 一旦路由入栈，一定是在副WebView中
 
+        // 一旦路由入栈，一定是在副WebView中
+        mRefreshButton.setVisibility(View.GONE);
         mSubWebView.pushRoute(route);
         ArrayList<String> history = new ArrayList<>();
         history.add(route);
@@ -379,6 +413,7 @@ public class HomeActivity extends AppCompatActivity {
             Animation.slideOut(this, (View) mSubWebView);
             mNavigationTitle.setVisibility(View.GONE);
             mBackButton.setVisibility(View.GONE);
+            mRefreshButton.setVisibility(View.VISIBLE);
             mIcon.setVisibility(View.VISIBLE);
             mTabBar.setVisibility(View.VISIBLE);
             mSubWebViewContainer.setVisibility(View.GONE);

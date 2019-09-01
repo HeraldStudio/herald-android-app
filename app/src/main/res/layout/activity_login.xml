@@ -23,7 +23,7 @@
         android:id="@+id/cardnum_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="12"
+        android:ems="16"
         android:hint="@string/cardnum_hint"
         android:inputType="textPersonName"
         android:background="@drawable/round_corner_edittext"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:ems="12"
+        android:ems="16"
         android:hint="@string/password_hint"
         android:inputType="textPassword"
         android:background="@drawable/round_corner_edittext"
@@ -67,13 +67,26 @@
         android:text="@string/login_button_title"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/copyright_text"
+        app:layout_constraintBottom_toTopOf="@+id/login_hint"
         app:layout_constraintEnd_toEndOf="@+id/password_edit"
         app:layout_constraintStart_toStartOf="@+id/password_edit"
         app:layout_constraintTop_toBottomOf="@+id/password_edit"
         android:layout_marginTop="15dp"
         style="?android:attr/borderlessButtonStyle"
         />
+
+    <TextView
+        android:id="@+id/login_hint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="小猴偷米使用业界公认标准加密你的所有隐私数据，使用只有你知道的统一身份认证密码和只有你的设备保存的会话标识符 (token) 作为数据解密的密钥。"
+        app:layout_constraintBottom_toTopOf="@+id/copyright_text"
+        app:layout_constraintEnd_toEndOf="@+id/password_edit"
+        app:layout_constraintStart_toStartOf="@+id/password_edit"
+        app:layout_constraintTop_toBottomOf="@+id/login_button"
+        android:paddingTop="28dp"
+        android:textSize="14dp"
+        android:textColor="#bcbcbc" />
 
     <TextView
         android:id="@+id/copyright_text"
@@ -88,5 +101,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="10dp"
         android:textColor="#bcbcbc"/>
+
 
 </android.support.constraint.ConstraintLayout>

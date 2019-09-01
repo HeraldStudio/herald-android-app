@@ -1,5 +1,6 @@
 package cn.myseu.heraldapp.Animation;
 
+import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Context;
@@ -20,6 +21,14 @@ public class Animation {
         AnimatorSet slideOut = (AnimatorSet) AnimatorInflater.loadAnimator(context,
                 R.animator.self_slide_out);
         slideOut.setTarget(view);
+        slideOut.start();
+    }
+
+    public static void refresh(Context context, View view, Animator.AnimatorListener listener) {
+        AnimatorSet slideOut = (AnimatorSet) AnimatorInflater.loadAnimator(context,
+                R.animator.refresh);
+        slideOut.setTarget(view);
+        slideOut.addListener(listener);
         slideOut.start();
     }
 }

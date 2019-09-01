@@ -12,20 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="#ffffff"
-        android:elevation="4dp"
+        android:elevation="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title=""
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="16dp">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/toolbar_icon"
@@ -39,10 +36,11 @@
 
             <ImageView
                 android:id="@+id/back_button"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:padding="10dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +53,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:text="TextView"
                 android:textColor="#555555"
@@ -67,10 +64,28 @@
                 app:layout_constraintStart_toEndOf="@+id/toolbar_icon"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/refresh_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/refresh_button" />
 
+        </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.Toolbar>
 
+    <TextView
+        android:id="@+id/toolbar_border"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f0f0f0"
+        app:layout_constraintTop_toBottomOf="@+id/herald_toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/auth_web_view_container" />
 
     <LinearLayout
         android:id="@+id/auth_web_view_container"
@@ -78,7 +93,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteY="65dp"
-        app:layout_constraintTop_toBottomOf="@+id/herald_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_border"
         app:layout_constraintBottom_toTopOf="@+id/auth_sub_web_view_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
