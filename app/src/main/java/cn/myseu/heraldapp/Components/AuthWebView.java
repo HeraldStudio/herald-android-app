@@ -45,6 +45,7 @@ public class AuthWebView extends WebView {
         webSettings.setAllowFileAccess(true);
         webSettings.setAppCacheEnabled(true);
         webSettings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         //启用调试
         setWebContentsDebuggingEnabled(true);
 
