@@ -409,11 +409,12 @@ public class HomeActivity extends AppCompatActivity {
 
     private void popRoute(){
         mRouteHistory.pop();
+        System.out.println(mRouteHistory);
         if(!mRouteHistory.empty()) {
             ArrayList<String> history = mRouteHistory.peek();
             mNavigationTitle.setText(history.get(1));
             mSubWebView.pushRoute(history.get(0));
-            Animation.slideOut(this, (View) mSubWebView);
+            //Animation.slideOut(this, (View) mSubWebView);
         } else {
             Animation.slideOut(this, (View) mSubWebView);
             mNavigationTitle.setVisibility(View.GONE);

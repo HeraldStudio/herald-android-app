@@ -7,15 +7,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 
+import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.WebViewClient;
 
 
-//import android.webkit.WebView;
-//import android.webkit.WebSettings;
-//import android.webkit.WebViewClient;
 import android.webkit.JavascriptInterface;
 import android.widget.LinearLayout;
 
@@ -44,7 +43,8 @@ public class AuthWebView extends WebView {
         webSettings.setAppCachePath(appCachePath);
         webSettings.setAllowFileAccess(true);
         webSettings.setAppCacheEnabled(true);
-        webSettings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        //webSettings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        webSettings.setMixedContentMode(com.tencent.smtt.sdk.WebSettings.LOAD_NORMAL);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         //启用调试
         setWebContentsDebuggingEnabled(true);
@@ -53,13 +53,18 @@ public class AuthWebView extends WebView {
         setHorizontalScrollBarEnabled(false);
         setVerticalScrollBarEnabled(false);
 
+        QbSdk.initX5Environment(context,  null);
+
         // 不显示X5内核自带的快速滚动条
         if(getX5WebViewExtension() != null) {
+
             Log.d("herald-x5","正在使用X5内核");
             getX5WebViewExtension().setScrollBarFadingEnabled(false);
             getX5WebViewExtension().setHorizontalScrollBarEnabled(false);
             getX5WebViewExtension().setVerticalScrollBarEnabled(false);
         }
+
+
     }
 
     public void setToken(String token){

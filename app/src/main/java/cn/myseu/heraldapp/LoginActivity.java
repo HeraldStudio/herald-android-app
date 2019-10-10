@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.tencent.smtt.sdk.QbSdk;
 
 import org.reactivestreams.Subscription;
 
@@ -34,6 +35,10 @@ public class LoginActivity extends AppCompatActivity {
     Disposable mAuthSubscription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //x5内核初始化接口
+        QbSdk.initX5Environment(getApplicationContext(),  null);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
